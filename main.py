@@ -1,4 +1,4 @@
-def print_man(man):
+def print_man(man, answered_byk):
     print(rf"""
       _________________
      |                 |
@@ -9,11 +9,14 @@ def print_man(man):
     {man[0]} {man[1]}               /|
     
 """)
+    for i in answered_byk:
+        print(i,end="")
+    print("\n")
 
 
 
 import random
-answered_byk =""
+answered_byk = []
 questions = {"who am i": "dima", "who are you": "pidor"}
 questions_mas = ["who am i", "who are you"]
 man = ["/", "\\", "|", "\\", "|", "/", "O"]
@@ -21,9 +24,11 @@ print("Hello! This is a Hangman!!! What is your name???")
 player_name = input()
 score = 0
 print("Good, Let's start game!")
-print_man(man)
 delete_chast = 0
 question = questions_mas[random.randrange(0,len(questions_mas))]
+for i in range(0,len(questions[question])):
+    answered_byk.append("_")
+print_man(man, answered_byk)
 print(f"Question: {question}")
 while True:
     if score == len(questions[question]):
@@ -39,10 +44,9 @@ while True:
     if buk in questions[question] and buk not in answered_byk:
         score += 1
         print(f"Absolutely right! Колво ваших очков теперь: {score}")
-        answered_byk += buk
+        answered_byk[questions[question].index(buk)] = buk
     else:
         man[delete_chast] = " "
         delete_chast += 1
-    print_man(man)
+    print_man(man, answered_byk)
 
-        #буквы угаданные отмечать
