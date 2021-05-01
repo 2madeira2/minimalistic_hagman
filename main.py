@@ -1,8 +1,10 @@
 import random
 import os.path
 
+
 def print_man(man, answered_byk):
-    print(rf"""
+    print(
+        rf"""
       _________________
      |                 |
      |                 |
@@ -11,14 +13,16 @@ def print_man(man, answered_byk):
      {man[2]}                 |
     {man[0]} {man[1]}               /|
     
-""")
+"""
+    )
     for i in answered_byk:
-        print(i,end="")
+        print(i, end="")
     print("\n")
 
 
-
-def hod_korolevy(score,questions,question, man, delete_chast, answered_byk, player_name):
+def hod_korolevy(
+    score, questions, question, man, delete_chast, answered_byk, player_name
+):
     print_man(man, answered_byk)
     while True:
         if score == len(questions[question]):
@@ -35,20 +39,22 @@ def hod_korolevy(score,questions,question, man, delete_chast, answered_byk, play
                 else:
                     break
         if buk == "save":
-            f = open('text.txt', 'w')
-            f.write(str(score)+'\n')
-            f.write(question + '\n')
+            f = open("text.txt", "w")
+            f.write(str(score) + "\n")
+            f.write(question + "\n")
             for i in man:
                 f.write(str(i))
-            f.write('\n')
-            f.write(str(delete_chast) + '\n')
+            f.write("\n")
+            f.write(str(delete_chast) + "\n")
             for i in answered_byk:
                 f.write(str(i))
-            f.write('\n')
+            f.write("\n")
             f.write(player_name)
             f.close()
         else:
-            if (buk in questions[question] or buk in questions[question].upper()) and buk not in answered_byk:
+            if (
+                buk in questions[question] or buk in questions[question].upper()
+            ) and buk not in answered_byk:
                 score += 1
                 print(f"Absolutely right! Колво ваших очков теперь: {score}")
                 buk = buk.lower()
@@ -62,14 +68,11 @@ def hod_korolevy(score,questions,question, man, delete_chast, answered_byk, play
                 break
 
 
-
-
-
-
-
 while True:
     questions = {"who am i": "dima", "who are you": "pidor"}
-    print("Do you want to start the new game? y/n However, if you want to load the last save, enter 'load'")
+    print(
+        "Do you want to start the new game? y/n However, if you want to load the last save, enter 'load'"
+    )
     answer = input()
     if answer == "y":
         answered_byk = []
@@ -87,12 +90,14 @@ while True:
 
         print(f"Question: {question}")
 
-        hod_korolevy(score, questions, question, man, delete_chast, answered_byk, player_name)
+        hod_korolevy(
+            score, questions, question, man, delete_chast, answered_byk, player_name
+        )
     elif answer == "load":
         if os.path.isfile("text.txt"):
-            f = open("text.txt","r")
+            f = open("text.txt", "r")
             text = f.read()
-            text = text.split('\n')
+            text = text.split("\n")
             score = int(text[0])
             question = text[1]
             man = list(text[2])
@@ -102,17 +107,12 @@ while True:
             print("Загрузка последнего сохранения успешно завершилась!")
             print(f"Игрок: {player_name}. Количество очков: {score} ")
             print(f"Вопрос: {question}")
-            hod_korolevy(score, questions, question, man, delete_chast, answered_byk, player_name)
+            hod_korolevy(
+                score, questions, question, man, delete_chast, answered_byk, player_name
+            )
         else:
             print("Sorry, сохранение куда то подевалось, начните новую игру")
     elif answer == "n":
         break
     else:
         print("Please, enter the correct answer: YES OR BLYAD NO!")
-
-
-
-
-
-
-
