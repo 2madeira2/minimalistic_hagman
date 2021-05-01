@@ -111,7 +111,7 @@ while True:
                 score, questions, question, man, delete_chast, answered_byk, player_name
             )
         else:
-            print("Sorry, сохранение куда то подевалось, начните новую игру")
+            print("Sorry, сохранение куда то подевалось, начните новую игру...")
     elif answer == "n":
         break
     else:
