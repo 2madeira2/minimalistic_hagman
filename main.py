@@ -19,6 +19,7 @@ def print_man(man, answered_byk):
 
 
 def hod_korolevy(score,questions,question, man, delete_chast, answered_byk):
+    print_man(man, answered_byk)
     while True:
         if score == len(questions[question]):
             print("Вы выиграли!")
@@ -37,9 +38,12 @@ def hod_korolevy(score,questions,question, man, delete_chast, answered_byk):
             f = open('text.txt', 'w')
             f.write(str(score)+'\n')
             f.write(question + '\n')
-            f.write(str(man) + '\n')
+            for i in man:
+                f.write(str(i))
+            f.write('\n')
             f.write(str(delete_chast) + '\n')
-            f.write(str(answered_byk) + '\n')
+            for i in answered_byk:
+                f.write(str(i))
             f.close()
         else:
             if (buk in questions[question] or buk in questions[question].upper()) and buk not in answered_byk:
@@ -62,11 +66,12 @@ def hod_korolevy(score,questions,question, man, delete_chast, answered_byk):
 
 
 while True:
+    questions = {"who am i": "dima", "who are you": "pidor"}
     print("Do you want to start the new game? y/n However, if you want to load the last save, enter 's'")
     answer = input()
     if answer == "y":
         answered_byk = []
-        questions = {"who am i": "dima", "who are you": "pidor"} #сделать общим для всех
+
         questions_mas = ["who am i", "who are you"]
         man = ["/", "\\", "|", "\\", "|", "/", "O"]
         print("Hello! This is a Hangman!!! What is your name???")
@@ -77,15 +82,20 @@ while True:
         question = questions_mas[random.randrange(0, len(questions_mas))]
         for i in range(0, len(questions[question])):
             answered_byk.append("_")
-        print_man(man, answered_byk)
+
         print(f"Question: {question}")
 
         hod_korolevy(score, questions, question, man, delete_chast, answered_byk)
     elif answer == "s":
-        #f = open("text.txt","r")
-        #text = f.read()
-        #распарсить сплитом и занести данные
-        pass
+        f = open("text.txt","r")
+        text = f.read()
+        text = text.split('\n')
+        score = int(text[0])
+        question = text[1]
+        man = list(text[2])
+        delete_chast = int(text[3])
+        answered_byk = list(text[4])
+        hod_korolevy(score, questions, question, man, delete_chast, answered_byk)
     elif answer == "n":
         break
     else:
