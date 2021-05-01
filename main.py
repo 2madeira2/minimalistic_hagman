@@ -1,5 +1,5 @@
 import random
-
+import os.path
 
 def print_man(man, answered_byk):
     print(rf"""
@@ -18,7 +18,7 @@ def print_man(man, answered_byk):
 
 
 
-def hod_korolevy(score,questions,question, man, delete_chast, answered_byk):
+def hod_korolevy(score,questions,question, man, delete_chast, answered_byk, player_name):
     print_man(man, answered_byk)
     while True:
         if score == len(questions[question]):
@@ -44,6 +44,8 @@ def hod_korolevy(score,questions,question, man, delete_chast, answered_byk):
             f.write(str(delete_chast) + '\n')
             for i in answered_byk:
                 f.write(str(i))
+            f.write('\n')
+            f.write(player_name)
             f.close()
         else:
             if (buk in questions[question] or buk in questions[question].upper()) and buk not in answered_byk:
@@ -67,7 +69,7 @@ def hod_korolevy(score,questions,question, man, delete_chast, answered_byk):
 
 while True:
     questions = {"who am i": "dima", "who are you": "pidor"}
-    print("Do you want to start the new game? y/n However, if you want to load the last save, enter 's'")
+    print("Do you want to start the new game? y/n However, if you want to load the last save, enter 'load'")
     answer = input()
     if answer == "y":
         answered_byk = []
@@ -85,17 +87,24 @@ while True:
 
         print(f"Question: {question}")
 
-        hod_korolevy(score, questions, question, man, delete_chast, answered_byk)
-    elif answer == "s":
-        f = open("text.txt","r")
-        text = f.read()
-        text = text.split('\n')
-        score = int(text[0])
-        question = text[1]
-        man = list(text[2])
-        delete_chast = int(text[3])
-        answered_byk = list(text[4])
-        hod_korolevy(score, questions, question, man, delete_chast, answered_byk)
+        hod_korolevy(score, questions, question, man, delete_chast, answered_byk, player_name)
+    elif answer == "load":
+        if os.path.isfile("text.txt"):
+            f = open("text.txt","r")
+            text = f.read()
+            text = text.split('\n')
+            score = int(text[0])
+            question = text[1]
+            man = list(text[2])
+            delete_chast = int(text[3])
+            answered_byk = list(text[4])
+            player_name = text[5]
+            print("Загрузка последнего сохранения успешно завершилась!")
+            print(f"Игрок: {player_name}. Количество очков: {score} ")
+            print(f"Вопрос: {question}")
+            hod_korolevy(score, questions, question, man, delete_chast, answered_byk, player_name)
+        else:
+            print("Sorry, сохранение куда то подевалось, начните новую игру")
     elif answer == "n":
         break
     else:
